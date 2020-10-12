@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const DOS = new ListWidget();
 const now = new Date();
 
@@ -10,20 +11,21 @@ DOS.backgroundImage = image;
 const weekday = now.getDay() == 0 ? 6 : now.getDay() - 1;
 const minutes = now.getMinutes();
 const hours = now.getHours();
-const month = now.getDate() + 1;
-const year = now.getMonth() + 1;
+// const month = now.getDate() + 1;
+// const year = now.getMonth() + 1;
 
 const dayPassed = (((hours + 1) * 60) + minutes);
 const batteryLevelRaw = Device.batteryLevel();
 const batteryLevel = batteryLevelRaw * 100;
 
 function getDayOfYear(date) {
-  let now = new Date(date);
-  let start = new Date(now.getFullYear(), 0, 0);
-  let diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-  let oneDay = 1000 * 60 * 60 * 24;
-  let day = Math.floor(diff / oneDay);
+  const today = new Date(date);
+  const start = new Date(today.getFullYear(), 0, 0);
+  const diff = (today - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+  const oneDay = 1000 * 60 * 60 * 24;
+  const day = Math.floor(diff / oneDay);
   return day;
+}
 
 function addProgElement(total, past, str) {
   const progText = DOS.addText(str);
@@ -56,7 +58,7 @@ function createProgImage(total, past) {
 
 addProgElement(1440, dayPassed, 'day');
 addProgElement(10080, ((1440 * (weekday + 1)) + dayPassed), 'week');
-addProgElement(525600, 
+addProgElement(525600, (((getDayOfYear(now) - 1) * 1440) + dayPassed), 'year');
 addProgElement(10000, (batteryLevel * 100), 'battery');
 
 Script.setWidget(DOS);
