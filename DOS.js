@@ -17,6 +17,7 @@ const hours = now.getHours();
 const dayPassed = (((hours + 1) * 60) + minutes);
 const batteryLevelRaw = Device.batteryLevel();
 const batteryLevel = batteryLevelRaw * 100;
+const batteryLevelReadable = Math.floor(batteryLevel);
 
 function getDayOfYear(date) {
   const today = new Date(date);
@@ -59,7 +60,7 @@ function createProgImage(total, past) {
 addProgElement(1440, dayPassed, 'day');
 addProgElement(10080, ((1440 * (weekday + 1)) + dayPassed), 'week');
 addProgElement(525600, (((getDayOfYear(now) - 1) * 1440) + dayPassed), 'year');
-addProgElement(10000, (batteryLevel * 100), `battery${ batteryLevel}`);
+addProgElement(10000, (batteryLevel * 100), `battery ${batteryLevelReadable}%`);
 
 Script.setWidget(DOS);
 Script.complete();
