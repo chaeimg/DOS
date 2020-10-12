@@ -4,7 +4,7 @@ const now = new Date();
 const width = 335;
 const height = 6;
 const fm = FileManager.iCloud();
-const image = fm.readImage(`${fm.documentsDirectory()}/DOS_medBG.PNG`);
+const image = fm.readImage(`${fm.documentsDirectory()}/mid_medium_progBG.PNG`);
 DOS.backgroundImage = image;
 
 const weekday = now.getDay() == 0 ? 6 : now.getDay() - 1;
@@ -14,28 +14,26 @@ const month = now.getDate() + 1;
 const year = now.getMonth() + 1;
 
 const dayPassed = (((hours + 1) * 60) + minutes);
+const batteryLevelRaw = Device.batteryLevel();
+const batteryLevel = batteryLevelRaw * 100;
 
-addProgElement(1440, dayPassed, 'day');
-addProgElement(10080, ((1440 * (weekday + 1)) + dayPassed), 'week');
-addProgElement(10000, (batteryLevel * 100), 'battery');
-
-Script.setWidget(DOS);
-Script.complete();
-
-function getBattLevel() {
-  const batteryLevelRaw = Device.batteryLevel();
-  const batteryLevel = batteryLevelRaw * 100;
-}
+function getDayOfYear(date) {
+  let now = new Date(date);
+  let start = new Date(now.getFullYear(), 0, 0);
+  let diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+  let oneDay = 1000 * 60 * 60 * 24;
+  let day = Math.floor(diff / oneDay);
+  return day;
 
 function addProgElement(total, past, str) {
   const progText = DOS.addText(str);
+  DOS.addSpacer(8);
   const progImage = DOS.addImage(createProgImage(total, past));
   progText.textColor = new Color('#EDEDED');
   progText.font = Font.boldSystemFont(13);
   progText.leftAlignText();
-  DOS.addSpacer(6);
   progImage.imageSize = new Size(width, height);
-  DOS.addSpacer(6);
+  DOS.addSpacer(8);
 }
 
 function createProgImage(total, past) {
@@ -55,3 +53,11 @@ function createProgImage(total, past) {
   progContext.fillPath();
   return progContext.getImage();
 }
+
+addProgElement(1440, dayPassed, 'day');
+addProgElement(10080, ((1440 * (weekday + 1)) + dayPassed), 'week');
+addProgElement(525600, 
+addProgElement(10000, (batteryLevel * 100), 'battery');
+
+Script.setWidget(DOS);
+Script.complete();
