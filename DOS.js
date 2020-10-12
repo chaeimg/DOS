@@ -59,7 +59,7 @@ function createProgImage(total, past) {
 addProgElement(1440, dayPassed, 'day');
 addProgElement(10080, ((1440 * (weekday + 1)) + dayPassed), 'week');
 addProgElement(525600, (((getDayOfYear(now) - 1) * 1440) + dayPassed), 'year');
-addProgElement(10000, (batteryLevel * 100), 'battery');
+addProgElement(10000, (batteryLevel * 100), `battery${ batteryLevel}`);
 
 Script.setWidget(DOS);
 Script.complete();
