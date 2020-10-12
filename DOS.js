@@ -1,9 +1,26 @@
+const DOS = new ListWidget();
+const now = new Date();
+
 const width = 335;
 const height = 6;
-const DOS = new ListWidget();
 const fm = FileManager.iCloud();
 const image = fm.readImage(`${fm.documentsDirectory()}/DOS_medBG.PNG`);
 DOS.backgroundImage = image;
+
+const weekday = now.getDay() == 0 ? 6 : now.getDay() - 1;
+const minutes = now.getMinutes();
+const hours = now.getHours();
+const month = now.getDate() + 1;
+const year = now.getMonth() + 1;
+
+const dayPassed = (((hours + 1) * 60) + minutes);
+
+addProgElement(1440, dayPassed, 'day');
+addProgElement(10080, ((1440 * (weekday + 1)) + dayPassed), 'week');
+addProgElement(10000, (batteryLevel * 100), 'battery');
+
+Script.setWidget(DOS);
+Script.complete();
 
 function getBattLevel() {
   const batteryLevelRaw = Device.batteryLevel();
@@ -38,14 +55,3 @@ function createProgImage(total, past) {
   progContext.fillPath();
   return progContext.getImage();
 }
-
-const now = new Date();
-const weekday = now.getDay() == 0 ? 6 : now.getDay() - 1;
-const minutes = now.getMinutes();
-getwidget(24 * 60, (now.getHours() + 1) * 60 + minutes, 'Day');
-getwidget(7, weekday + 1, 'Week');
-getwidget(30, now.getDate() + 1, 'Month');
-getwidget(12, now.getMonth() + 1, 'Year');
-
-Script.setWidget(DOS);
-Script.complete();
