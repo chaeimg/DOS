@@ -55,14 +55,3 @@ function createProgImage(total, past) {
   progContext.fillPath();
   return progContext.getImage();
 }
-
-// const now = new Date();
-// const weekday = now.getDay() == 0 ? 6 : now.getDay() - 1;
-// const minutes = now.getMinutes();
-// getwidget(24 * 60, (now.getHours() + 1) * 60 + minutes, 'Day');
-// getwidget(7, weekday + 1, 'Week');
-// getwidget(30, now.getDate() + 1, 'Month');
-// getwidget(12, now.getMonth() + 1, 'Year');
-
-// Script.setWidget(DOS);
-// Script.complete();
